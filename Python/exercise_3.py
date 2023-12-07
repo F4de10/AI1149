@@ -24,7 +24,7 @@ P = np.zeros((len(observations), len(observations)))
 # Populate the diagonal elements
 for i in range(len(observations)):
     P[i][i] = np.round(40000 / (observations[i] ** 2))
-print(P)
+ic(P)
 
 A = np.array([[1, 0], [0, 1], [1, 1]])
 C = np.array([[0], [0], [0]])
@@ -36,7 +36,7 @@ P = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
 A = np.array([[-1, 1], [0, -1], [1, 0]])
 C = np.array([[0], [1], [-1]])
 X = adjustment_by_elements(observations, A, P, C, "meter")
-print(X)
+ic(X)
 
 print("\n", "problem 3.5", "\n")
 observations = np.array([[1.001], [1.000], [1.004], [-1.996]])

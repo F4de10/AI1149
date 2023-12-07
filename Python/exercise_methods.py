@@ -287,6 +287,5 @@ def chi_square_test(epsilon, P, variance_factor):
     p_value = scipy.stats.chi2.cdf(chi, len(epsilon))
     return omega, p_value
 
-
 if __name__ == "__main__":
     a = 5
