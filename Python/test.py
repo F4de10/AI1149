@@ -17,7 +17,7 @@ x_A, y_A = 6500000, 1500000
 x_B, y_B = 6500060, 1500080
 
 
-azimuth_AB = azimuth(x_A, y_A, x_B, y_B)
+azimuth_AB = azimuth_calculation(x_A, y_A, x_B, y_B)
 azimuth_AP = azimuth_AB - l1
 
 x_p_0 = x_A + l4 * np.cos(np.radians(azimuth_AP))

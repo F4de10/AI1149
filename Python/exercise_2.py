@@ -1,4 +1,7 @@
+from matplotlib import pyplot as plt
+import seaborn as sns
 from exercise_methods import *
+from scipy.stats import chi2
 
 print("problem 3.6", "\n")
 print("a)", "\n")
@@ -14,9 +17,9 @@ plt.show()
 
 """model = LinearRegression().fit(x, y)
 r_sq = model.score(x, y)
-print(f"coefficient of determination: {r_sq}")
-print(f"𝛼: {model.intercept_}")
-print(f"β: {model.coef_}")"""
+print_statement(f"coefficient of determination: {r_sq}")
+print_statement(f"𝛼: {model.intercept_}")
+print_statement(f"β: {model.coef}")"""
 
 print("b)", "\n")
 q_11 = n
@@ -36,7 +39,7 @@ f = 1 / ((q_11 * q_22) - (q_12**2))
 a = f * (q_22 * w_1 - q_12 * w_2)
 b = f * (-q_12 * w_1 + q_11 * w_2)
 
-print("𝛼:", a, "'\", "'β:"', b,"\n")
+print("𝛼:", a, "'\", "'β:"', b, "\n")
 
 print("c)", "\n")
 
@@ -46,7 +49,7 @@ print("\n")
 epsilon_i = sum((y - (a + (b * x)).reshape((1, -1))))
 print(f"epsilon_i: {epsilon_i}")
 print("\n")
-sigma = np.sqrt((1 / (df)) * sum(sum((y - (a + (b * x)).reshape((1, -1))) ** 2)))
+sigma = np.sqrt((1 / df) * sum(sum((y - (a + (b * x)).reshape((1, -1))) ** 2)))
 print(f"sigma_0: ±{sigma}")
 
 sigma_a = sigma * np.sqrt(q_22 / ((q_11 * q_22) - (q_12**2)))
@@ -57,10 +60,8 @@ print(f"sigma_b: {sigma_b}")
 print("\n", "d)", "\n")
 
 known_error = 0.15
-chi2 = df * ((sigma**2) / (known_error**2))
-print(f"chi2: {chi2}")
+chi2_value = df * ((sigma**2) / (known_error**2))
+print(f"chi2: {chi2_value}")
 
 # chi2_0.05 (8) = 15.507
 # 5.68 < 15.5 --> do not reject null hypothesis
-
-p_value = 1 - sp.stats.chi2.cdf(chi2, df)
