@@ -23,7 +23,7 @@ predicted_values = regression.predict([[date] for date in dates])
 slope = regression.coef_[0]
 intercept = regression.intercept_
 line_equation = f"y = {slope:.2f}x + {intercept:.2f}"
-landhöjning = f"landhöjningen är {abs(slope):.2f} mm/år"
+landhojning = f"landhöjningen är {abs(slope):.2f} mm/år"
 
 # Plotting the series and regression line
 plt.plot(
@@ -64,7 +64,7 @@ plt.text(
 plt.text(
     dates[-1] + 5,
     values[0] - 50,
-    landhöjning,
+    landhojning,
     fontsize=12,
     verticalalignment="top",
     horizontalalignment="right",

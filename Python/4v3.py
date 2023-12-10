@@ -27,10 +27,10 @@ given_coordinates = np.array(
 )
 
 x_A, y_A = given_coordinates[0, 0], given_coordinates[0, 1]
-x_B, y_B = given_coordinates[1, 0], given_coordinates[1, 1]
-x_C, y_C = given_coordinates[2, 0], given_coordinates[2, 1]
+[x_B], [y_B] = given_coordinates[1, 0], given_coordinates[1, 1]
+[x_C], [y_C] = given_coordinates[2, 0], given_coordinates[2, 1]
 
-azimuth_CB = azimuth(x_C, y_C, x_B, y_B)
+azimuth_CB = azimuth_calculation(x_C, y_C, x_B, y_B)
 azimuth_CP = azimuth_CB + l4
 
 x_P_0 = x_C + l5 * np.cos(np.radians(azimuth_CP))
@@ -67,5 +67,3 @@ X = x_P_0 + dX[0][0] / 100
 Y = y_P_0 + dX[1][0] / 100
 ic(X)
 ic(Y)
-
-

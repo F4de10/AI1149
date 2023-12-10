@@ -1,4 +1,5 @@
 from exercise_methods import *
+from scipy.stats import chi2, norm, t
 
 print("\n", "problem 5.1", "\n")
 A = np.array([[1, 0], [0, 1], [-1, -1]])
@@ -6,14 +7,14 @@ P = np.diag([1, 1, 1])
 Q_ee = 1 / 3 * np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]])
 
 ic(Q_ee, P)
-R, r = calculate_redundancy(A, P, Q_ee)
+calculate_redundancy(A, P, Q_ee)
 print("\n")
 
 A = np.array([[1, 0], [0, 1], [-1, -1]])
 P = np.diag([2, 2, 1])
 Q_ee = 1 / 8 * np.array([[1, 1, 2], [1, 1, 2], [2, 2, 4]])
 ic(Q_ee, P)
-R, r = calculate_redundancy(A, P, Q_ee)
+calculate_redundancy(A, P, Q_ee)
 
 print("\n", "problem 5.2", "\n")
 
@@ -22,7 +23,7 @@ P = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
 A = np.array([[1], [1], [1]])
 C = np.array([[-10.421], [-12.261], [-11.559]])
 
-X, Q_ee = adjustment_by_elements(observations, A, P, C, "meter", "false")
+Q_ee = adjustment_by_elements(observations, A, P, C, "meter", "false")
 ic(Q_ee, P)
 R, r = calculate_redundancy(A, P, Q_ee)
 
@@ -36,17 +37,16 @@ A = np.array([[1, 0], [0, 1], [1, 1]])
 ic(A)
 C = np.array([[0], [0], [0]])
 ic(C)
-X, Q_ee = adjustment_by_elements(observations, A, P, C, "meter", "false")
-
+Q_ee = adjustment_by_elements(observations, A, P, C, "meter", "false")
 ic(Q_ee, P)
-R, r = calculate_redundancy(A, P, Q_ee)
+calculate_redundancy(A, P, Q_ee)
 print("\n")
 
 P = np.diag([4, 4, 1])
 
-X, Q_ee = adjustment_by_elements(observations, A, P, C, "meter", "false")
+Q_ee = adjustment_by_elements(observations, A, P, C, "meter", "false")
 ic(Q_ee, P)
-R, r = calculate_redundancy(A, P, Q_ee)
+calculate_redundancy(A, P, Q_ee)
 
 print("\n", "problem 5.4", "\n")
 P = np.diag([2, 2, 1, 1, 2])
@@ -75,8 +75,8 @@ print("\n", "Overall test:", "\n")
 n = len(epsilon)
 m = len(A[0])
 ic(n - m)
-ic(scipy.stats.chi2.ppf(1 - 0.05, n - m))
-critical_value = variance_factor * scipy.stats.chi2.ppf(1 - 0.05, n - m)
+ic(chi2.ppf(1 - 0.05, n - m))
+critical_value = variance_factor * chi2.ppf(1 - 0.05, n - m)
 omega, p_value = chi_square_test(epsilon, P, variance_factor)
 ic(p_value)
 ic(critical_value)
@@ -86,7 +86,7 @@ u = np.zeros((len(epsilon), 1))
 critical_value = np.zeros((len(epsilon), 1))
 for i in range(len(epsilon)):
     u[i][0] = epsilon[i][0] / (np.sqrt(variance_factor) * np.sqrt(Q_ee[i][i]))
-    critical_value = scipy.stats.norm.ppf(1 - 0.025)
+    critical_value = norm.ppf(1 - 0.025)
 ic(u)
 ic(critical_value)
 
@@ -97,7 +97,7 @@ w = np.zeros((len(epsilon), 1))
 critical_value = np.zeros((len(epsilon), 1))
 for i in range(len(epsilon)):
     w[i][0] = epsilon[i][0] / (np.sqrt(estimated_variance) * np.sqrt(Q_ee[i][i]))
-    critical_value = scipy.stats.t.ppf(1 - 0.025, n - m - 1)
+    critical_value = t.ppf(1 - 0.025, n - m - 1)
 ic(w)
 ic(critical_value)
 

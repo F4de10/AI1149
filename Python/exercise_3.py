@@ -23,7 +23,7 @@ P = np.zeros((len(observations), len(observations)))
 
 # Populate the diagonal elements
 for i in range(len(observations)):
-    P[i][i] = np.round(40000 / (observations[i] ** 2))
+    P[i][i] = np.round(40000 / (observations[i][0] ** 2))
 ic(P)
 
 A = np.array([[1, 0], [0, 1], [1, 1]])

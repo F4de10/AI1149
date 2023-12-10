@@ -1,9 +1,9 @@
 import numpy as np
 from icecream import ic
-import scipy.stats
+from scipy.stats import chi2
 
 
-def adjustment_by_elements(observations, A, P, C, unit="none", print="true"):
+def adjustment_by_elements(observations, A, P, C, unit="none", print_statement="true"):
     """
     Perform adjustment by elements.
 
@@ -13,10 +13,11 @@ def adjustment_by_elements(observations, A, P, C, unit="none", print="true"):
         P (2D array): The weight matrix.
         C (2D array): The constant matrix.
         unit (str): The unit of measurement. Either "degree" or "meter".
-        print (str): Whether to enable printing of intermediate results. Either "true" or "false".
+        print_statement (str): Whether to enable printing of intermediate results. Either "true" or "false".
 
     Returns:
-        tuple: A tuple containing the adjusted observations (X) and the covariance matrix of the residuals (Q_epsilon_epsilon).
+        tuple: A tuple containing the adjusted observations (X) and
+        the covariance matrix of the residuals (Q_epsilon_epsilon).
     """
 
     if unit == "degree":
@@ -28,7 +29,7 @@ def adjustment_by_elements(observations, A, P, C, unit="none", print="true"):
     else:
         correction = 1
 
-    if print == "false":
+    if print_statement == "false":
         ic.disable()
     else:
         ic.enable()
@@ -90,12 +91,12 @@ def adjustment_by_elements(observations, A, P, C, unit="none", print="true"):
 
     ic.enable()
 
-    return dX, Q_epsilon_epsilon
+    return Q_epsilon_epsilon
 
 
-def distance(x1, y1, x2, y2):
+def distance_calculation(x1, y1, x2, y2):
     """
-    Calculate the distance between two points.
+    Calculate the distance_calculations between two points.
 
     Args:
         x1 (float): The x-coordinate of the first point.
@@ -104,13 +105,13 @@ def distance(x1, y1, x2, y2):
         y2 (float): The y-coordinate of the second point.
 
     Returns:
-        float: The distance between the two points.
+        float: The distance_calculations between the two points.
     """
     distance = np.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
     return distance
 
 
-def azimuth(x1, y1, x2, y2):
+def azimuth_calculation(x1, y1, x2, y2):
     """
     Calculate the azimuth between two points.
 
@@ -129,16 +130,18 @@ def azimuth(x1, y1, x2, y2):
     return azimuth
 
 
+# noinspection PyShadowingNames
 def linj_vinkel(angle, point):
     """
-    Calculate the line angle and distance based on given parameters.
+    Calculate the line angle and distance_calculations based on given parameters.
 
     Args:
         angle (list): List of angle coordinates [x_i, y_i, x_j, y_j, x_k, y_k].
-        point (str): The point to calculate the line angle and distance for. Can be "i", "j", "k", or any other value.
+        point (str): The point to calculate the line angle and distance_calculations for.
+            Can be "i", "j", "k", or any other value.
 
     Returns:
-        tuple: A tuple containing the line angle and distance based on the given point.
+        tuple: A tuple containing the line angle and distance_calculations based on the given point.
             If point is "i", returns (C, a, b).
             If point is "j", returns (C, c, d).
             If point is "k", returns (C, e, f).
@@ -149,15 +152,15 @@ def linj_vinkel(angle, point):
 
     """
     [x_i, y_i, x_j, y_j, x_k, y_k] = angle
-    alpha_ik = azimuth(x_i, y_i, x_k, y_k)
-    alpha_ij = azimuth(x_i, y_i, x_j, y_j)
+    alpha_ik = azimuth_calculation(x_i, y_i, x_k, y_k)
+    alpha_ij = azimuth_calculation(x_i, y_i, x_j, y_j)
 
     beta_ijk = alpha_ik - alpha_ij
     if beta_ijk < 0:
         beta_ijk += 360
 
-    s_ij = distance(x_i, y_i, x_j, y_j)
-    s_ik = distance(x_i, y_i, x_k, y_k)
+    s_ij = distance_calculation(x_i, y_i, x_j, y_j)
+    s_ik = distance_calculation(x_i, y_i, x_k, y_k)
     a = np.sin(np.radians(alpha_ik)) / s_ik - np.sin(np.radians(alpha_ij)) / s_ij
     b = -np.cos(np.radians(alpha_ik)) / s_ik + np.cos(np.radians(alpha_ij)) / s_ij
     c = np.sin(np.radians(alpha_ij)) / s_ij
@@ -178,21 +181,23 @@ def linj_vinkel(angle, point):
         )
 
 
-def linj_avstånd(distance_points, point):
+# noinspection PyShadowingNames
+def linj_avstand(distance_points, point):
     """
-    Calculate the distance between a line segment and a point.
+    Calculate the distance_calculations between a line segment and a point.
 
     Parameters:
 
     distance_points (list): List containing the coordinates of the line segment's endpoints [x_i, y_i, x_j, y_j].
-    point (str): Indicates the point to calculate the distance from. Can be "i", "j", or any other value.
+    point (str): Indicates the point to calculate the distance_calculations from. Can be "i", "j", or any other value.
 
     Returns:
-    tuple: Tuple containing the distance between the line segment and the point, as well as the coefficients of the line equation.
+    tuple: Tuple containing the distance_calculations between the line segment and the point,
+        as well as the coefficients of the line equation.
 
     """
     [x_i, y_i, x_j, y_j] = distance_points
-    s_ij = distance(x_i, y_i, x_j, y_j)
+    s_ij = distance_calculation(x_i, y_i, x_j, y_j)
     a = -(x_j - x_i) / s_ij
     b = -(y_j - y_i) / s_ij
     d = -a
@@ -211,9 +216,8 @@ def linj_figur(angles, distances, correction_angles=3600, correction_distances=1
     Calculate the linear figure based on observations, angles, and distances.
 
     Args:
-        observations (list): List of observation points.
         angles (list): List of angle measurements.
-        distances (list): List of distance measurements.
+        distances (list): List of distance_calculations measurements.
         correction_angles (float, optional): Correction factor for angles. Defaults to 3600 (seconds).
         correction_distances (float, optional): Correction factor for distances. Defaults to 1000 (mm).
 
@@ -233,9 +237,9 @@ def linj_figur(angles, distances, correction_angles=3600, correction_distances=1
 
     for i in range(len(angles), len(angles) + len(distances)):
         j = i - len(angles)
-        A[i][0] = linj_avstånd(distances[j][0], distances[j][1])[1]
-        A[i][1] = linj_avstånd(distances[j][0], distances[j][1])[2]
-        C[i][0] = linj_avstånd(distances[j][0], distances[j][1])[0]
+        A[i][0] = linj_avstand(distances[j][0], distances[j][1])[1]
+        A[i][1] = linj_avstand(distances[j][0], distances[j][1])[2]
+        C[i][0] = linj_avstand(distances[j][0], distances[j][1])[0]
     return A, C
 
 
@@ -284,8 +288,9 @@ def chi_square_test(epsilon, P, variance_factor):
     ic(omega)
     chi = omega / variance_factor
     ic(chi)
-    p_value = scipy.stats.chi2.cdf(chi, len(epsilon))
+    p_value = chi2.cdf(chi, len(epsilon))
     return omega, p_value
+
 
 if __name__ == "__main__":
     a = 5
