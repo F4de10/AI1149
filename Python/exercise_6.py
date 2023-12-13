@@ -85,9 +85,7 @@ ic(residuals)
 # Perform DFT on the residual time series
 N = len(residuals)
 n = np.arange(N / 2)
-ic(n)
 t = np.arange(N)
-ic(t)
 a = [
     (2 / N) * np.sum(residuals * np.cos((2 * np.pi * (t + 1) * (n + 1)) / N)) for n in n
 ]
