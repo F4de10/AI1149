@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from icecream import ic
 
 months = []
 co2_values = []
@@ -14,19 +15,20 @@ with open("CO2.txt", "r") as file:
 # Compute simple moving average over a 12-month interval (M = 12)
 M = 12
 moving_average = pd.DataFrame(co2_values).rolling(window=12).mean()
+ic(moving_average[10:-4])
 
 # Compute centered moving average over a 12-month interval (M = 12)
 M = 12
 centered_moving_average = (
     pd.DataFrame(co2_values).rolling(window=12, center=True).mean()
 )
-diff = []
-for i, value in enumerate(centered_moving_average):
-    diff.extend(centered_moving_average[i] - moving_average[i])
+ic(centered_moving_average[4:-4])
 
 # Compute exponential moving average with alpha = 0.3
 exp_moving_average_03 = pd.DataFrame(co2_values).ewm(alpha=0.3).mean()
 exp_moving_average_07 = pd.DataFrame(co2_values).ewm(alpha=0.7).mean()
+ic(exp_moving_average_03)
+ic(exp_moving_average_07)
 
 # Compute exponential moving average with alpha = 0.3
 # exp_moving_average_03 = []
@@ -60,7 +62,7 @@ for lag in range(len(co2_values)):
             for i in range(len(co2_values))
         )
         autocorrelation_coefficients.append(numerator / denominator)
-
+ic(autocorrelation_coefficients)
 # Plot all figures in the same figure
 plt.figure(figsize=(13, 9))
 
