@@ -14,18 +14,16 @@ with open("CO2.txt", "r") as file:
 
 # Compute simple moving average over a 12-month interval (M = 12)
 M = 12
-moving_average = pd.DataFrame(co2_values).rolling(window=12).mean()
+moving_average = pd.DataFrame(co2_values).rolling(window=3).mean()
 ic(moving_average[10:-4])
 
 # Compute centered moving average over a 12-month interval (M = 12)
 M = 12
-centered_moving_average = (
-    pd.DataFrame(co2_values).rolling(window=12, center=True).mean()
-)
+centered_moving_average = pd.DataFrame(co2_values).rolling(window=5, center=True).mean()
 ic(centered_moving_average[4:-4])
 
 # Compute exponential moving average with alpha = 0.3
-exp_moving_average_03 = pd.DataFrame(co2_values).ewm(alpha=0.3).mean()
+exp_moving_average_03 = pd.DataFrame(co2_values).ewm(alpha=0.1).mean()
 exp_moving_average_07 = pd.DataFrame(co2_values).ewm(alpha=0.7).mean()
 ic(exp_moving_average_03)
 ic(exp_moving_average_07)
@@ -78,18 +76,18 @@ plt.subplot(2, 3, 2)
 plt.plot(months, moving_average)
 plt.xlabel("Months")
 plt.ylabel("Moving Average")
-plt.title("Simple Moving Average (M = 12)")
+plt.title("Simple Moving Average (M = 3)")
 
 # Plot computed centered moving average
 plt.subplot(2, 3, 3)
 plt.plot(months, centered_moving_average)
 plt.xlabel("Months")
 plt.ylabel("Centered Moving Average")
-plt.title("Centered Moving Average (M = 12)")
+plt.title("Centered Moving Average (M = 5)")
 
 # Plot computed exponential moving averages
 plt.subplot(2, 3, 4)
-plt.plot(months, exp_moving_average_03, label="Alpha = 0.3")
+plt.plot(months, exp_moving_average_03, label="Alpha = 0.1")
 plt.plot(months, exp_moving_average_07, label="Alpha = 0.7")
 plt.xlabel("Months")
 plt.ylabel("Exponential Moving Average")
@@ -101,7 +99,7 @@ plt.subplot(2, 3, 5)
 plt.plot(months, co2_values, label="Original CO2 Values")
 plt.plot(months, moving_average, label="Moving Average")
 plt.plot(months, centered_moving_average, label="Centered Moving Average")
-plt.plot(months, exp_moving_average_03, label="Alpha = 0.3")
+plt.plot(months, exp_moving_average_03, label="Alpha = 0.1")
 plt.plot(months, exp_moving_average_07, label="Alpha = 0.7")
 plt.xlabel("Months")
 plt.ylabel("CO2 Value")
