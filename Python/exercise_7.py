@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from icecream import ic
+import numpy as np
 
 months = []
 co2_values = []
@@ -64,12 +65,24 @@ ic(autocorrelation_coefficients)
 # Plot all figures in the same figure
 plt.figure(figsize=(13, 9))
 
+
+# Perform linear regression
+x = np.array(months)
+y = np.array(co2_values)
+coefficients = np.polyfit(x, y, 1)
+regression_line = np.polyval(coefficients, x)
+
 # Plot original CO2 values
 plt.subplot(2, 3, 1)
 plt.plot(months, co2_values)
 plt.xlabel("Months")
 plt.ylabel("CO2 Value")
 plt.title("CO2 Values Over Time")
+
+# Plot regression line
+plt.plot(x, regression_line, color='red', label='Regression Line')
+plt.legend()
+
 
 # Plot computed moving average
 plt.subplot(2, 3, 2)
